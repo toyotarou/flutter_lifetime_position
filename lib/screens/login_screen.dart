@@ -77,14 +77,16 @@ class _LoginScreenState extends State<LoginScreen> {
       }
 
       // user_id と kankaku（ms）をファイルに保存（backgroundHandler が参照）
-      final String cachePath =
+      const String cachePath =
           '/data/user/0/com.example.flutter_lifetime_position/cache';
       await File('$cachePath/user_id.txt')
           .writeAsString(matched.userId.toString());
       await File('$cachePath/interval_ms.txt')
           .writeAsString((matched.kankaku * 1000).toString());
 
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
       Navigator.pushReplacement(
         context,
         MaterialPageRoute<void>(
@@ -97,7 +99,9 @@ class _LoginScreenState extends State<LoginScreen> {
     } catch (e) {
       setState(() => _errorText = '通信エラー: $e');
     } finally {
-      if (mounted) setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 

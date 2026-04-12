@@ -55,7 +55,9 @@ void backgroundHandler(Location data) {
       }
     } catch (_) {}
 
-    if (userId.isEmpty) return; // 未ログインなら送信しない
+    if (userId.isEmpty) {
+      return; // 未ログインなら送信しない
+    }
 
     final DateTime now = DateTime.fromMillisecondsSinceEpoch(nowMs);
     final String date =

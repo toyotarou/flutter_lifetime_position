@@ -43,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     // 起動時に自動開始（パーミッションはログイン画面で取得済み）
+    // ignore: always_specify_types
     Future(() async {
       if (Platform.isAndroid) {
         await BackgroundTask.instance.setAndroidNotification(title: '位置情報取得中', message: 'バックグラウンドで現在位置を記録しています');
@@ -80,7 +81,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _startTracking() async {
     await BackgroundTask.instance.start(
-      isEnabledEvenIfKilled: true,
       updateIntervalInMilliseconds: widget.intervalMs.toDouble(),
     );
     _stopTimers();
@@ -101,12 +101,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   String _formatCoord(double? value) {
-    if (value == null) return '---';
+    if (value == null) {
+      return '---';
+    }
     return value.toStringAsFixed(6);
   }
 
   String _formatTime(DateTime? dt) {
-    if (dt == null) return '---';
+    if (dt == null) {
+      return '---';
+    }
     final String h = dt.hour.toString().padLeft(2, '0');
     final String m = dt.minute.toString().padLeft(2, '0');
     final String s = dt.second.toString().padLeft(2, '0');
