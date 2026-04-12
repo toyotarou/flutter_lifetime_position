@@ -80,9 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _startTracking() async {
-    await BackgroundTask.instance.start(
-      updateIntervalInMilliseconds: widget.intervalMs.toDouble(),
-    );
+    await BackgroundTask.instance.start(updateIntervalInMilliseconds: widget.intervalMs.toDouble());
     _stopTimers();
     _startTimers();
     setState(() {

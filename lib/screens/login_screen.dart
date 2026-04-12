@@ -60,8 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
         return;
       }
 
-      final Map<String, dynamic> json =
-          jsonDecode(response.body) as Map<String, dynamic>;
+      final Map<String, dynamic> json = jsonDecode(response.body) as Map<String, dynamic>;
       final List<dynamic> data = json['data'] as List<dynamic>;
       final List<LoginUserModel> users = data
           .map((dynamic e) => LoginUserModel.fromJson(e as Map<String, dynamic>))
@@ -77,12 +76,9 @@ class _LoginScreenState extends State<LoginScreen> {
       }
 
       // user_id と kankaku（ms）をファイルに保存（backgroundHandler が参照）
-      const String cachePath =
-          '/data/user/0/com.example.flutter_lifetime_position/cache';
-      await File('$cachePath/user_id.txt')
-          .writeAsString(matched.userId.toString());
-      await File('$cachePath/interval_ms.txt')
-          .writeAsString((matched.kankaku * 1000).toString());
+      const String cachePath = '/data/user/0/com.example.flutter_lifetime_position/cache';
+      await File('$cachePath/user_id.txt').writeAsString(matched.userId.toString());
+      await File('$cachePath/interval_ms.txt').writeAsString((matched.kankaku * 1000).toString());
 
       if (!mounted) {
         return;
@@ -90,10 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute<void>(
-          builder: (_) => HomeScreen(
-            userId: matched.userId.toString(),
-            intervalMs: matched.kankaku * 1000,
-          ),
+          builder: (_) => HomeScreen(userId: matched.userId.toString(), intervalMs: matched.kankaku * 1000),
         ),
       );
     } catch (e) {
@@ -124,12 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: <Widget>[
               const Text(
                 'Lifetime Position',
-                style: TextStyle(
-                  color: Colors.tealAccent,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w300,
-                  letterSpacing: 2,
-                ),
+                style: TextStyle(color: Colors.tealAccent, fontSize: 24, fontWeight: FontWeight.w300, letterSpacing: 2),
               ),
               const SizedBox(height: 48),
 
@@ -192,26 +180,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     backgroundColor: Colors.tealAccent.withOpacity(0.8),
                     foregroundColor: Colors.black,
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
                   child: _isLoading
                       ? const SizedBox(
                           height: 20,
                           width: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.black,
-                          ),
+                          child: CircularProgressIndicator(strokeWidth: 2, color: Colors.black),
                         )
-                      : const Text(
-                          'ログイン',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      : const Text('ログイン', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 ),
               ),
             ],
