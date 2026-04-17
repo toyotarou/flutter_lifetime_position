@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:background_task/background_task.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -103,7 +104,11 @@ void main() async {
   final int? intervalMs = prefs.getInt('intervalMs');
   final bool isLoggedIn = userId != null && intervalMs != null;
 
-  runApp(MyApp(isLoggedIn: isLoggedIn, userId: userId, intervalMs: intervalMs));
+  runApp(
+    ProviderScope(
+      child: MyApp(isLoggedIn: isLoggedIn, userId: userId, intervalMs: intervalMs),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -113,16 +118,15 @@ class MyApp extends StatelessWidget {
   final String? userId;
   final int? intervalMs;
 
+  ///
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Lifetime Position',
+      title: 'ここにーた',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal, brightness: Brightness.dark),
       ),
-      home: isLoggedIn
-          ? HomeScreen(userId: userId!, intervalMs: intervalMs!)
-          : const LoginScreen(),
+      home: isLoggedIn ? HomeScreen(userId: userId!, intervalMs: intervalMs!) : const LoginScreen(),
     );
   }
 }
