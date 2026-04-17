@@ -1,0 +1,14 @@
+http://49.212.175.205:8081/api/getLifetimeAllPosition
+
+
+{
+    "data": [
+        {
+            "year": "2026",
+            "month": "04",
+            "day": "12",
+            "time": "20:11:54",
+            "user_id": 10000001,
+            "latitude": "35.718467",
+            "longitude": "139.58686"
+        },

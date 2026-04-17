@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/login_user_model.dart';
 import 'home_screen.dart';
@@ -79,6 +80,11 @@ class _LoginScreenState extends State<LoginScreen> {
       const String cachePath = '/data/user/0/com.example.flutter_lifetime_position/cache';
       await File('$cachePath/user_id.txt').writeAsString(matched.userId.toString());
       await File('$cachePath/interval_ms.txt').writeAsString((matched.kankaku * 1000).toString());
+
+      // ログイン状態を SharedPreferences に保存
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userId', matched.userId.toString());
+      await prefs.setInt('intervalMs', matched.kankaku * 1000);
 
       if (!mounted) {
         return;

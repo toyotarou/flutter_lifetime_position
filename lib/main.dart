@@ -4,7 +4,9 @@ import 'dart:io';
 import 'package:background_task/background_task.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 
 // ファイルパス（プラグイン不要・Isolate をまたいで有効）
@@ -92,14 +94,24 @@ void backgroundHandler(Location data) {
   });
 }
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   BackgroundTask.instance.setBackgroundHandler(backgroundHandler);
-  runApp(const MyApp());
+
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final String? userId = prefs.getString('userId');
+  final int? intervalMs = prefs.getInt('intervalMs');
+  final bool isLoggedIn = userId != null && intervalMs != null;
+
+  runApp(MyApp(isLoggedIn: isLoggedIn, userId: userId, intervalMs: intervalMs));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.isLoggedIn, this.userId, this.intervalMs});
+
+  final bool isLoggedIn;
+  final String? userId;
+  final int? intervalMs;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +120,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal, brightness: Brightness.dark),
       ),
-      home: const LoginScreen(),
+      home: isLoggedIn
+          ? HomeScreen(userId: userId!, intervalMs: intervalMs!)
+          : const LoginScreen(),
     );
   }
 }

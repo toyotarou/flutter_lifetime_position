@@ -1,0 +1,65 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use DB;
+use Exception;
+use Illuminate\Http\Request;
+
+class ApiController extends Controller
+{
+
+    public function insertUserGeoloc(Request $request)
+    {
+
+        list($year, $month, $day) = explode("-", $request->date);
+
+        $insert = [
+            "year" => $year,
+            "month" => $month,
+            "day" => $day,
+            "time" => $request->time,
+            "user_id" => $request->user_id,
+            "latitude" => $request->latitude,
+            "longitude" => $request->longitude,
+        ];
+
+        DB::table('t_life_position')->insert($insert);
+
+        $response = [
+            $year,
+            $month,
+            $day,
+            $request->time,
+            $request->user_id,
+            $request->latitude,
+            $request->longitude
+        ];
+
+        return response()->json(['data' => $response]);
+    }
+
+    public function getLifetimePositionLogin(){
+
+        $result = DB::table('t_life_position_login')->get();
+
+        $ary = [];
+        foreach($result as $v){
+            $ary[] = [
+                'user_id' => $v->user_id,
+                'email' => $v->email,
+                'password' => $v->password,
+                'sei' => $v->sei,
+                'mei' => $v->mei,
+                'kankaku' => $v->kankaku
+            ];
+        }
+
+        $response = $ary;
+
+        return response()->json(['data' => $response]);
+    }
+
+}
